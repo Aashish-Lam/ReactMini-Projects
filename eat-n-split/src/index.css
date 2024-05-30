@@ -19,7 +19,8 @@ html {
 
 body {
   height: 100vh;
-  background-color: #495057;
+  background-color: rgb(219, 239, 191);
+  color: #495057;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +134,7 @@ label {
 
 label::first-letter {
   display: inline-block;
-  margin-right: 4px;
+  margin-right: 0px;
   font-size: 1.8rem;
 }
 

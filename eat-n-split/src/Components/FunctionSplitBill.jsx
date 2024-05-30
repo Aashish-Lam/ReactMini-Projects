@@ -16,7 +16,7 @@ const FunctionSplitBill = ({ selectedFriend, onSplitBill }) => {
       onSubmit={handleSubmit}
     >
       <h2>Split a Bill with {selectedFriend.name}</h2>
-      <label htmlFor="">💸BillValue</label>
+      <label>💸BillValue</label>
       <input
         type="text"
         value={Bill}
@@ -32,13 +32,13 @@ const FunctionSplitBill = ({ selectedFriend, onSplitBill }) => {
           )
         }
       />
-      <label htmlFor="">{selectedFriend.name} Expense</label>
+      <label>{selectedFriend.name} Expense</label>
       <input
         type="text"
         value={paidbyFriend}
         disabled
       />
-      <label htmlFor="">Who is paying the bill?</label>
+      <label>Who is paying the bill?</label>
       <select
         name=""
         id=""
