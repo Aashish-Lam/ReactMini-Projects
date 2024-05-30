@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const tempMovieData = [
@@ -89,10 +89,37 @@ function NumResults({ movies }) {
     </p>
   );
 }
+const KEY = "15b62e54";
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  4;
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [error, setError] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const query = "ram";
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    async function fetchMovies() {
+      // Clear previous error before fetching
+      try {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+        );
+        if (!res.ok) throw new Error("Something went wrong");
+
+        const data = await res.json();
+        console.log(data);
+        if (data.Response === "False") throw new Error("⛔Movie not found");
+
+        setMovies(data.Search);
+      } catch (err) {
+        setError(err.message); // Set the error message correctly
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchMovies();
+  }, []);
+
   return (
     <>
       <Navbar movies={movies}>
@@ -102,7 +129,9 @@ export default function App() {
       </Navbar>
       <Main>
         <Box>
-          <MovieList movies={movies} />
+          {isLoading && <Loading />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
           <>
@@ -156,7 +185,10 @@ function MovieList({ movies, setMovies }) {
   return (
     <ul className="list">
       {movies?.map((movie) => (
-        <Movie movie={movie}></Movie>
+        <Movie
+          movie={movie}
+          key={movie.imdbID}
+        ></Movie>
       ))}
     </ul>
   );
@@ -230,5 +262,19 @@ function WatchedList({ movie }) {
         </p>
       </div>
     </li>
+  );
+}
+function ErrorMessage({ message }) {
+  return (
+    <div className="error">
+      <span>{message || "An error occurred"}</span>
+    </div>
+  );
+}
+function Loading() {
+  return (
+    <div className="loading">
+      <div className="Loader"></div>
+    </div>
   );
 }
