@@ -1,19 +1,27 @@
 /* HTML: <div class="loader"></div> */
-.loading {
-  display: flex;
-  justify-content: center;
-  
-}
 .loader {
-  width: 50px;
+  width: 20px;
   aspect-ratio: 1;
-  --_c: no-repeat radial-gradient(farthest-side, #25b09b 92%, #0000);
-  background: var(--_c) top, var(--_c) left, var(--_c) right, var(--_c) bottom;
-  background-size: 12px 12px;
-  animation: l7 1s infinite;
+  background: #25b09b;
+  box-shadow: 0 0 60px 15px #25b09b;
+  transform: translate(-80px);
+  clip-path: inset(0);
+  animation: l4-1 0.5s ease-in-out infinite alternate,
+    l4-2 1s ease-in-out infinite;
 }
-@keyframes l7 {
-  to {
-    transform: rotate(0.5turn);
+@keyframes l4-1 {
+  100% {
+    transform: translateX(80px);
+  }
+}
+@keyframes l4-2 {
+  33% {
+    clip-path: inset(0 0 0 -100px);
+  }
+  50% {
+    clip-path: inset(0 0 0 0);
+  }
+  83% {
+    clip-path: inset(0 -100px 0 0);
   }
 }
