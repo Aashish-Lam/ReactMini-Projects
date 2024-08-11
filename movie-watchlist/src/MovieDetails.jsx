@@ -9,11 +9,24 @@ export function MovieDetails({
   onAddWatched,
   Watched,
 }) {
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
+      return function () {
+        document.removeEventListener("keydown", callback );
+      };
+    },
+    [onCloseMovie]
+  );
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
   const isWatched = Watched.map((movie) => movie.imdbID).includes(selectedId);
-  console.log(isWatched);
   useEffect(
     function () {
       async function getMovieDetails() {
@@ -45,6 +58,16 @@ export function MovieDetails({
     Director: director,
     Genre: genre,
   } = movie;
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+      return function () {
+        document.title = "Popcorn";
+      };
+    },
+    [title]
+  );
   function handleAdd() {
     const newWatchedMovie = {
       imdbID: selectedId,
